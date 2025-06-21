@@ -88,3 +88,8 @@ cat /mnt/secure_fs/private_yuadi/jawaban.c
 ```bash
 sudo fusermount -u /mnt/secure_fs
 ```
+# Jika ingin membuat file di yaudi atau irwandi harus pindah direktori dahulu
+```bash
+cat /mnt/secure_fs/private_yuadi/jawaban_praktikum1.c
+```
+kemudian nano [nama_file]
