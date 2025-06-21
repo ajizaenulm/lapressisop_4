@@ -84,3 +84,7 @@ cat /mnt/secure_fs/public/materi_kuliah.txt
 cat /mnt/secure_fs/private_yuadi/jawaban.c
 ```
 
+# JIKA INGIN UNMOUNT
+```bash
+sudo fusermount -u /mnt/secure_fs
+```
