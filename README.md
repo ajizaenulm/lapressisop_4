@@ -1,4 +1,4 @@
-# a.
+# a. Setup Direktori dan Pembuatan User
 
 pertama membuat direktori dahulu
 ### Buat source directory dan subfoldernya
@@ -30,5 +30,57 @@ sudo chmod 700 /home/shared_files/private_irwandi
 sudo chmod 755 /home/shared_files/public
 ```
 
-# b.
+# b. Akses Mount Point
+Buat direktori kosong untuk mount point:
+```bash
+sudo mkdir -p /mnt/secure_fs
+```
+
+mount point ini untuk lokasi fuse nanti. Setelah itu aku membuat fusecure.c di dalam direktori sendiri yaitu `fuse_secure_fs`.
+dan jangan lupa untuk menginstall libfuse terlebih dahulu.
+```bash
+sudo apt-get update
+sudo apt-get install libfuse-dev
+```
+
+setelah itu kompile fusecure yang telah dibuat menggunakan perintah ini.
+```bash
+gcc -Wall `pkg-config fuse --cflags` fusecure.c -o fusecure `pkg-config fuse --libs`
+```
+
+Setelah itu menjalankan FUSE mount agar `source directory` ter-mount di `/mnt/secure_fs`.
+```bash
+sudo ./fusecure /mnt/secure_fs -o allow_other
+```
+`-o allow_other` agar semua user (yuadi dan irwandi) bisa melihat kontennya.
+
+Setelah itu uji mount point menggunakan `ls -l /mnt/secure_fs`, maka akan menampilkan `public/`, `private_yuadi/`, dan `private_irwandi/`.
+
+
+# d. Akses Public Folder
+Pastikan permission di source direktori sudah benar
+```bash
+sudo chmod 755 /home/shared_files/public
+```
+
+misal jika ingin membuat file di dalam soure direktori contohnya seperti ini
+```bash
+echo "Ini materi kuliah algoritma" > /home/shared_files/public/materi_kuliah.txt
+```
+maka otomatis di dalam direktori `public` akan terdapat file `materi_kuliah.txt` yang berisi tulisan `Ini materi kuliah algoritma`
+
+Kemudian cobalah melihat isinya misalnya dengan menggunakan `cat /mnt/secure_fs/public/materi_kuliah.txt`
+
+# e. Akses Private Folder yang Terbatas
+
+coba login pada masing-masing user yang sudah dibuat
+```bash
+su - yuadi
+su - irwandi
+```
+kemudian check apakah sudah berhasil
+```bash
+cat /mnt/secure_fs/public/materi_kuliah.txt
+cat /mnt/secure_fs/private_yuadi/jawaban.c
+```
 
