@@ -97,7 +97,6 @@ sudo fusermount -u /mnt/secure_fs
 ```
 # Jika ingin membuat file di yaudi atau irwandi harus pindah direktori dahulu
 ```bash
-```bash
 cd /home/shared_files/private_yuadi
 ```
 kemudian nano [nama_file]
