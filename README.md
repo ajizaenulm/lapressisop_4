@@ -99,15 +99,16 @@ sudo fusermount -u /mnt/secure_fs
 ```bash
 cd /home/shared_files/private_yuadi
 ```
-```#define FUSE_USE_VERSION 28
+ ```
+#define FUSE_USE_VERSION 28
 #include <fuse.h>
 #include <string.h>
 #include <errno.h>
 #include <sys/stat.h>
 
 static const char *hello_path = "/hello.txt";
-static char file_content[1024] = "Hello, World\n"; // buffer awal
-static size_t file_size = 13; // panjang awal
+static char file_content[1024] = "Hello, World\n";
+static size_t file_size = 13;
 
 static int hello_getattr(const char *path, struct stat *stbuf) {
     memset(stbuf, 0, sizeof(struct stat));
@@ -129,7 +130,6 @@ static int hello_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
     (void) offset;
     (void) fi;
     if (strcmp(path, "/") != 0) return -ENOENT;
-
     filler(buf, ".", NULL, 0);
     filler(buf, "..", NULL, 0);
     filler(buf, "hello.txt", NULL, 0);
@@ -138,14 +138,13 @@ static int hello_readdir(const char *path, void *buf, fuse_fill_dir_t filler,
 
 static int hello_open(const char *path, struct fuse_file_info *fi) {
     if (strcmp(path, hello_path) != 0) return -ENOENT;
-    return 0; // allow all kinds of access
+    return 0;
 }
 
 static int hello_read(const char *path, char *buf, size_t size, off_t offset,
                       struct fuse_file_info *fi) {
     (void) fi;
     if (strcmp(path, hello_path) != 0) return -ENOENT;
-
     if (offset < file_size) {
         if (offset + size > file_size) size = file_size - offset;
         memcpy(buf, file_content + offset, size);
@@ -159,10 +158,7 @@ static int hello_write(const char *path, const char *buf, size_t size,
                        off_t offset, struct fuse_file_info *fi) {
     (void) fi;
     if (strcmp(path, hello_path) != 0) return -ENOENT;
-
-    if (offset + size > sizeof(file_content)) {
-        return -EFBIG; // terlalu besar
-    }
+    if (offset + size > sizeof(file_content)) return -EFBIG;
     memcpy(file_content + offset, buf, size);
     if (offset + size > file_size) file_size = offset + size;
     return size;
@@ -170,10 +166,8 @@ static int hello_write(const char *path, const char *buf, size_t size,
 
 static int hello_truncate(const char *path, off_t size) {
     if (strcmp(path, hello_path) != 0) return -ENOENT;
-
-    if (size < file_size) {
-        file_size = size;
-    } else {
+    if (size < file_size) file_size = size;
+    else {
         memset(file_content + file_size, 0, size - file_size);
         file_size = size;
     }
