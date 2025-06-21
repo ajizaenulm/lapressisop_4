@@ -67,6 +67,13 @@ misal jika ingin membuat file di dalam soure direktori contohnya seperti ini
 ```bash
 echo "Ini materi kuliah algoritma" > /home/shared_files/public/materi_kuliah.txt
 ```
+
+dan jangan lupa untuk menjalankan
+```bash
+sudo chmod 777 /home/shared_files/public
+```
+
+(777 membuat siapa pun bisa membuat file di dalam public.)
 maka otomatis di dalam direktori `public` akan terdapat file `materi_kuliah.txt` yang berisi tulisan `Ini materi kuliah algoritma`
 
 Kemudian cobalah melihat isinya misalnya dengan menggunakan `cat /mnt/secure_fs/public/materi_kuliah.txt`
