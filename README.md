@@ -54,7 +54,7 @@ sudo ./fusecure /mnt/secure_fs -o allow_other
 ```
 `-o allow_other` agar semua user (yuadi dan irwandi) bisa melihat kontennya.
 
-Setelah itu uji mount point menggunakan `ls -l /mnt/secure_fs`, maka akan menampilkan `public/`, `private_yuadi/`, dan `private_irwandi/`.
+Setelah itu uji mount point menggunakan `ls /mnt/secure_fs`, maka akan menampilkan `public/`, `private_yuadi/`, dan `private_irwandi/`.
 
 
 # d. Akses Public Folder
